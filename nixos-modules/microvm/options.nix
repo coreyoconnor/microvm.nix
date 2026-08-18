@@ -424,6 +424,10 @@ in
               with `--posix-acl`, see asserts.nix).
             '';
           };
+          extraMountArgs = mkOption {
+            type = listOf str;
+            default = [];
+          };
           extraArgs = mkOption {
             type = listOf str;
             default = [];
