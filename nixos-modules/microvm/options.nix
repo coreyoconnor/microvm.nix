@@ -428,6 +428,10 @@ in
             type = listOf str;
             default = [];
           };
+          neededForBoot = mkOption {
+            type = bool;
+            default = false;
+          };
           extraArgs = mkOption {
             type = listOf str;
             default = [];

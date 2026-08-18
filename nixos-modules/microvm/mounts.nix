@@ -117,7 +117,7 @@ lib.mkIf config.microvm.guest.enable {
       }) {} (withDriveLetters config.microvm)
   ) (
     # 9p/virtiofs Shares
-    builtins.foldl' (result: { mountPoint, tag, proto, source, extraMountArgs, ... }: result // {
+    builtins.foldl' (result: { mountPoint, tag, proto, source, extraMountArgs, neededForBoot, ... }: result // {
       "${mountPoint}" = {
         device = tag;
         fsType = proto;
@@ -125,6 +125,7 @@ lib.mkIf config.microvm.guest.enable {
           "virtiofs" = [ "defaults" "x-systemd.after=systemd-modules-load.service" ];
           "9p" = [ "trans=virtio" "version=9p2000.L" "msize=65536" "x-systemd.after=systemd-modules-load.service" ];
         }.${proto} ++ extraMountArgs;
+        inherit neededForBoot;
       } // lib.optionalAttrs (source == "/nix/store" || mountPoint == config.microvm.writableStoreOverlay) {
         neededForBoot = true;
       };
